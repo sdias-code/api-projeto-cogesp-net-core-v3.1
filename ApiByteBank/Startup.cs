@@ -38,6 +38,8 @@ namespace ApiByteBank
 
             
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IContaRepository, ContaRepository>();
+            services.AddScoped<ITransacoRepository, TransacoRepository>();
             services.AddControllers();
         }
 
