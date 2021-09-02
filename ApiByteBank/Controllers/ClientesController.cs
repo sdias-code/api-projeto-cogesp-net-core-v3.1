@@ -78,7 +78,14 @@ namespace ApiByteBank.Controllers
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
-        {
+        {           
+            
+            var temCpf = _context.Clientes.FirstOrDefault(c => c.Cpf == cliente.Cpf);
+            if(temCpf != null)
+            {
+                return BadRequest("Erro ao cadastrar a conta! CPF já existe!");
+            }
+
             _context.Clientes.Add(cliente);
             await _context.SaveChangesAsync();
 
