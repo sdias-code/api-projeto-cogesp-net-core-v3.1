@@ -40,7 +40,8 @@ namespace ApiByteBank.Models
 
                 entity.HasOne(d => d.Cliente)
                     .WithMany(p => p.Conta)
-                    .HasForeignKey(d => d.ClienteId);
+                    .HasForeignKey(d => d.ClienteId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Transaco>(entity =>
@@ -55,7 +56,7 @@ namespace ApiByteBank.Models
 
                 entity.HasOne(d => d.TipoTransacao)
                     .WithMany(p => p.Transacos)
-                    .HasForeignKey(d => d.TipoTransacaoId);
+                    .HasForeignKey(d => d.TipoTransacaoId);                    
             });
 
             OnModelCreatingPartial(modelBuilder);

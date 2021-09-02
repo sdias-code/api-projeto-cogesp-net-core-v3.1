@@ -78,10 +78,10 @@ namespace ApiByteBank.Controllers
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
-        {           
-            
+        {
+
             var temCpf = _context.Clientes.FirstOrDefault(c => c.Cpf == cliente.Cpf);
-            if(temCpf != null)
+            if (temCpf != null)
             {
                 return BadRequest("Erro ao cadastrar a conta! CPF já existe!");
             }
@@ -94,18 +94,24 @@ namespace ApiByteBank.Controllers
 
         // DELETE: api/Clientes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Cliente>> DeleteCliente(int id)
+        public async Task<ActionResult<Transaco>> DeleteCliente(int id)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
-            if (cliente == null)
+            try
             {
-                return NotFound("Id do cliente não encontrado");
+                var cliente = await _context.Transacoes.FindAsync(id);
+                if (cliente == null)
+                {
+                    return NotFound("Id do cliente não encontrado");
+                }
+
+                _context.Transacoes.Remove(cliente);
+                await _context.SaveChangesAsync();
+                return cliente;
             }
-
-            _context.Clientes.Remove(cliente);
-            await _context.SaveChangesAsync();
-
-            return cliente;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private bool ClienteExists(int id)

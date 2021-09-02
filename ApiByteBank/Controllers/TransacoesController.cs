@@ -39,30 +39,17 @@ namespace ApiByteBank.Controllers
             }
 
             return transaco;
-        }
-
-        // POST: api/Transacoes
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPost]
-        //public async Task<ActionResult<Transaco>> PostTransaco(Transaco transaco)
-        //{
-        //    _context.Transacoes.Add(transaco);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetTransaco", new { id = transaco.Id }, transaco);
-        //}
+        }        
 
         //Deposito: api/Transacoes
-        [HttpPost]
+        [HttpPost("deposito")]
         public async Task<ActionResult<Transaco>> DepositoTransaco(Transaco transaco)
 
         {
             Conta contaDB = _context.Contas.Find(transaco.ContaId);
             var tipo = transaco.TipoTransacaoId;
             
-            double valor = transaco.Valor;
-            
+            var valor = transaco.Valor;            
 
             if(valor <= 0)
             {
@@ -83,7 +70,6 @@ namespace ApiByteBank.Controllers
                 _context.Transacoes.Add(transaco);
 
                 await _context.SaveChangesAsync();
-
                
             }
 
@@ -91,33 +77,49 @@ namespace ApiByteBank.Controllers
 
         }
 
-        //Retirada: api/Transacoes
-        //[HttpPost]
-        //public async Task<ActionResult<Transaco>> SaqueTransaco(Transaco transaco)
+        //Saque: api/Transacoes
+        [HttpPost("saque")]
+        public async Task<ActionResult<Transaco>> SaqueTransaco(Transaco transaco)
 
-        //{
-
-        //    _context.Transacoes.Add(transaco);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetTransaco", new { id = transaco.Id }, transaco);
-        //}
-
-        // DELETE: api/Transacoes/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Transaco>> DeleteTransaco(int id)
         {
-            var transaco = await _context.Transacoes.FindAsync(id);
-            if (transaco == null)
+            Conta contaDB = _context.Contas.Find(transaco.ContaId);
+            var tipo = transaco.TipoTransacaoId;
+
+            var valor = transaco.Valor;
+
+            double saldo_Atual = contaDB.Saldo;
+
+            if (valor <= 0)
             {
-                return NotFound();
+                return BadRequest("Não é permitido entrar com valor 0 ou negativo!");
             }
 
-            _context.Transacoes.Remove(transaco);
-            await _context.SaveChangesAsync();
+            if(valor > saldo_Atual)
+            {
+                return BadRequest("Erro! Valor solicitado é maior que o saldo na conta!");
+            }
 
-            return transaco;
+            if (tipo == 2)
+            {               
+
+                double saldoTotal = saldo_Atual - valor;
+
+                contaDB.Saldo = saldoTotal;
+
+                transaco.Valor = valor;
+                transaco.Data = DateTime.Now;
+
+                _context.Transacoes.Add(transaco);
+
+                await _context.SaveChangesAsync();
+
+            }
+
+            return CreatedAtAction("GetTransaco", new { id = transaco.Id }, transaco);
+
         }
+
+
 
         private bool TransacoExists(int id)
         {
