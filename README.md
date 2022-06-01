@@ -1,6 +1,7 @@
 # Api - Projeto cogesp
 ## Cadastro de transações bancárias
-### Feito em Csharp - CRUD MVC .NET CORE 3.1
+### Feito em Csharp - CRUD API .NET CORE 3.1
+#### Última atualização : 01/06/2022
 
 - Cadastrar clientes
 - Cadastrar contas
