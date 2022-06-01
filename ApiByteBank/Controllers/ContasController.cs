@@ -13,9 +13,9 @@ namespace ApiByteBank.Controllers
     [ApiController]
     public class ContasController : ControllerBase
     {
-        private readonly SilvioBbAppBancoContext _context;
+        private readonly AppBancoContext _context;
 
-        public ContasController(SilvioBbAppBancoContext context)
+        public ContasController(AppBancoContext context)
         {
             _context = context;
         }

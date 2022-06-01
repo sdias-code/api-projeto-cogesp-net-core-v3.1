@@ -8,7 +8,7 @@ namespace ApiByteBank.Repositories
 {
     public class ClienteRepository : GenericRepository<Cliente>, IClienteRepository
     {
-        public ClienteRepository(SilvioBbAppBancoContext repositoryContext) : base(repositoryContext)
+        public ClienteRepository(AppBancoContext repositoryContext) : base(repositoryContext)
         {
 
         }

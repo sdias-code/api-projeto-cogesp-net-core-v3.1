@@ -29,9 +29,9 @@ namespace ApiByteBank
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddControllers();
-            services.AddDbContext<SilvioBbAppBancoContext>(options =>
+            services.AddDbContext<AppBancoContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("Database"));
             }
 
             );

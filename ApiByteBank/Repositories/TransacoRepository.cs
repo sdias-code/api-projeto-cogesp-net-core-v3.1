@@ -8,7 +8,7 @@ namespace ApiByteBank.Repositories
 {
     public class TransacoRepository : GenericRepository<Transaco>, ITransacoRepository
     {
-        public TransacoRepository(SilvioBbAppBancoContext repositoryContext) : base(repositoryContext)
+        public TransacoRepository(AppBancoContext repositoryContext) : base(repositoryContext)
         {
 
         }

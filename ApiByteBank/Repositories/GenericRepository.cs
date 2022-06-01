@@ -9,8 +9,8 @@ namespace ApiByteBank.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private SilvioBbAppBancoContext context = null;
-        public GenericRepository(SilvioBbAppBancoContext _context)
+        private AppBancoContext context = null;
+        public GenericRepository(AppBancoContext _context)
         {
             this.context = _context;
         }
